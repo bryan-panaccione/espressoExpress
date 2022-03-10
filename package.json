@@ -1,0 +1,28 @@
+{
+  "name": "espressoexpress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "eServer.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon eServer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryan-panaccione/espressoExpress.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryan-panaccione/espressoExpress/issues"
+  },
+  "homepage": "https://github.com/bryan-panaccione/espressoExpress#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
