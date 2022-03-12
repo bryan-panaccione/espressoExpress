@@ -5,8 +5,14 @@ dotenv.config();
 
 const { Pool } = pkg;
 
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+// });
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  user: process.env.USER_NAME,
+  password: process.env.PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 const app = express();
@@ -20,9 +26,9 @@ app.use(express.static("public"));
 //gets
 app.get("/home", (req, res) => {
   pool
-    .query("SELECT * FROM noteCards;")
+    .query("SELECT * FROM notecards;")
     .then((result) => {
-      res.send(result.rows);
+      res.send(result.rows[0]);
     })
     .catch((err) => res.sendStatus(500));
 });
