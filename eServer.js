@@ -1,19 +1,18 @@
 import express from "express";
 import pkg from "pg";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { Pool } = pkg;
 
-const PORT = process.env.port || 3000;
-
 const pool = new Pool({
-  database: "docBoxdb",
-  user: "bryan",
-  password: "password",
+  connectionString: process.env.DATABASE_URL,
 });
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static("public"));
 
 // auth middleware
 // gonna use Auth0 password.js eventually
@@ -24,6 +23,16 @@ app.get("/home", (req, res) => {
     .query("SELECT * FROM noteCards;")
     .then((result) => {
       res.send(result.rows);
+    })
+    .catch((err) => res.sendStatus(500));
+});
+
+app.get("/home/:id", (req, res) => {
+  const { id } = req.params;
+  pool
+    .query("SELECT * FROM noteCards WHERE id = $1;", [id])
+    .then((result) => {
+      res.send(result.rows[0]);
     })
     .catch((err) => res.sendStatus(500));
 });
@@ -89,4 +98,6 @@ app.use((req, res, next) => {
 });
 
 //listen on port
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(process.env.PORT, () =>
+  console.log(`Listening on port: ${process.env.PORT}`)
+);
