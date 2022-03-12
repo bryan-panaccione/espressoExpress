@@ -10,9 +10,10 @@ const { Pool } = pkg;
 // });
 
 const pool = new Pool({
-  user: process.env.USER_NAME,
-  password: process.env.PASSWORD,
-  database: process.env.DB_NAME,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const app = express();
