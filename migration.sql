@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS userAccounts;
 DROP TABLE IF EXISTS docBox;
+DROP TABLE IF EXISTS noteCards;
 
 
 CREATE TABLE docBox (
@@ -9,15 +10,17 @@ CREATE TABLE docBox (
 );
 
 
-CREATE TABLE userAccounts (
+CREATE TABLE noteCards (
     id SERIAL PRIMARY KEY,
-    userName TEXT,
-    authToken TEXT
+    title TEXT,
+    body_text TEXT
 );
 
 
-
-INSERT INTO userAccounts(userName, authToken) VALUES ('admin', 'Basic YWRtaW46bWVvd21peA=='); --admin meowmix
-INSERT INTO userAccounts(userName, authToken) VALUES ('danny', 'Basic ZGFubnk6bWVvd21lb3c='); --danny meowmeow
-INSERT INTO userAccounts(userName, authToken) VALUES ('bryan', 'Basic ZGFubnk6bWVvd21lb3c='); --bryan erikthecat
-
+INSERT INTO noteCards(title, body_text) VALUES ('Note 1', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 2', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 3', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 4', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 5', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 6', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat
+INSERT INTO noteCards(title, body_text) VALUES ('Note 7', 'lorem kd;akln jdjdks kdkslke nkldsn nkfdlasie'); --bryan erikthecat

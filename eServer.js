@@ -16,33 +16,19 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // auth middleware
-
-// app.use((req, res, next) => {
-//   pool
-//     .query("SELECT authtoken FROM useraccounts WHERE username = $1", [user])
-//     .then((result) => {
-//       if ((result.rows[0]["authtoken"] = req.headers.authorization)) {
-//         //console.log(req.headers.authorization);
-//         //console.log(req.headers.authorization);
-//         console.log(result.rows[0]["authtoken"]);
-//         next();
-//       } else {
-//         res.sendStatus(401);
-//       }
-//     })
-//     .catch((err) => res.sendStatus(401));
-// });
-
-app.use((req, res, next) => {
-  if (req.headers.authorization.startsWith("Basic ")) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-});
+// gonna use Auth0 password.js eventually
 
 //gets
 app.get("/home", (req, res) => {
+  pool
+    .query("SELECT * FROM noteCards;")
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => res.sendStatus(500));
+});
+
+app.get("/home/users", (req, res) => {
   pool
     .query("SELECT * FROM userAccounts;")
     .then((result) => {
@@ -52,10 +38,50 @@ app.get("/home", (req, res) => {
 });
 //posts
 
+app.post("/home", (req, res) => {
+  const { title, body_text } = req.body;
+  if (title && body_text) {
+    pool
+      .query("INSERT INTO noteCards(title, body_text) VALUES ($1, $2);", [
+        title,
+        body_text,
+      ])
+      .then(() => res.send(`Successfully posted ${title}`))
+      .catch((err) => res.sendStatus(500));
+  } else {
+    res.status(400).send("Must include title and body");
+  }
+});
+
 //patches
+app.patch("/home/:id", (req, res) => {
+  const { body_text } = req.body;
+  const { id } = req.params;
+  const updateCommand = `
+  UPDATE noteCards SET
+    body_text = COALESCE($2, body_text)
+    WHERE title = $1`;
+  pool
+    .query(updateCommand, [id, body_text])
+    .then((result) => res.send(`Update made to entry ${id}`))
+    .catch((err) => res.sendStatus(500));
+});
 
 //deletes
-
+app.delete("/home/:id", (req, res) => {
+  const { id } = req.params;
+  const deleteCommand = `DELETE FROM noteCards WHERE id = $1`;
+  pool
+    .query(deleteCommand, [id])
+    .then((result) => {
+      if (result.rowCount > 0) {
+        res.send(`Entry ${id} deleted from records`);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => res.sendStatus(500));
+});
 //404 if not found
 
 app.use((req, res, next) => {
