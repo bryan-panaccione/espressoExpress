@@ -29,11 +29,11 @@ app.use(express.static("public"));
 //gets
 app.get("/home", (req, res) => {
   pool
-    .query("SELECT * FROM pets ORDER BY id;")
+    .query("SELECT * FROM pets;")
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((err) => res.sendStatus(500));
+    .catch((err) => res.sendStatus(400));
 });
 
 app.get("/home/:id", (req, res) => {

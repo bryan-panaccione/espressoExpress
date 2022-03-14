@@ -7,7 +7,7 @@ const petArea = document.querySelector(".row.petAppendArea");
 
 populateButton.addEventListener("click", () => {
   fetch("/home")
-    .then((res) => res.json())
+    .then((res) => res.text())
     .then((data) => {
       for (let pet of data) {
         console.log(pet);
