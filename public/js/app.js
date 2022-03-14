@@ -7,10 +7,9 @@ const petArea = document.querySelector(".row.petAppendArea");
 
 populateButton.addEventListener("click", () => {
   fetch("/home")
-    .then((res) => res.text())
+    .then((res) => res.json())
     .then((data) => {
       for (let pet of data) {
-        console.log(pet);
         let card = document.createElement("div");
         card.classList.add("4u");
         card.innerHTML = Admin.petCard(
