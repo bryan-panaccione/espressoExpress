@@ -13,9 +13,10 @@ const { Pool } = pkg;
 // });
 
 const pool = new Pool({
-  password: process.env.PASSWORD,
-  user: process.env.USER_NAME,
-  database: process.env.DB_NAME,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const app = express();
@@ -29,11 +30,11 @@ app.use(express.static("public"));
 //gets
 app.get("/home", (req, res) => {
   pool
-    .query("SELECT * FROM pets;")
+    .query("SELECT * FROM pets ORDER BY id;")
     .then((result) => {
       res.send(result.rows);
     })
-    .catch((err) => res.sendStatus(400));
+    .catch((err) => res.sendStatus(500));
 });
 
 app.get("/home/:id", (req, res) => {
