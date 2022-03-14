@@ -18,7 +18,7 @@ CREATE TABLE pets (
 
 
 INSERT INTO pets(name, age, breed, kind, vax_status, good_w_kids, good_w_animals, about_pet) VALUES 
-('Audie', 4, 'Lab-GSD Mix', 'dog', true, true, false, 'Audie is a high energy loving dog that is dominant-assertive'),
+('Audie', 4, 'Lab-GSD Mix', 'dog', true, true, false, 'Audie is a high energy loving dog that is dominant-assertive He likes to take long walks on the beach and take shots of bacardi with his best friends, usually that gets him in trouble but he doesnt mind'),
 ('Dewey', 7, 'Rottweiler-Heeler Mix', 'dog', true, true, true, 'Dewey is a laid back and chill pup'),
 ('Schmitt', 8, 'Orange Shorthair', 'cat', true, true, true, 'Schmitt is an adventurer'),
 ('Erik', 8, 'Grey Shorthair', 'cat', true, true, true, 'He likes to get up high and watch over his domain'),

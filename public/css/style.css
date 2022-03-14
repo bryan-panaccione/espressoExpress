@@ -4,7 +4,60 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&display=swap");
 
+/* Admin Area*/
+
+.adminContent {
+}
+
+.adminLayout {
+}
+
+.adminInPiece {
+  margin-top: 1em;
+}
+.petAddOptions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.petAddOptions > * {
+  margin-right: 1em;
+  margin-left: 1em;
+}
+.shortInput {
+  background: rgb(214, 214, 214) !important;
+  color: black !important;
+}
+.shortInput::placeholder {
+  color: #232d33 !important;
+}
+.longInput {
+  background: white;
+  color: black;
+}
+
+.updateIDpatch {
+  width: 50% !important;
+}
+
+.changeHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.updateHeader {
+  display: flex;
+}
+
+.deleteContent {
+  margin: 3em;
+}
 /* Basic */
+
+.petIdCard {
+  margin: 0 0 -2em 0;
+}
 
 .namePet {
   font-weight: 600;
@@ -194,7 +247,7 @@ input,
 select,
 textarea {
   color: #555f66;
-  font-family: "Roboto", Helvetica, sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 14pt;
   font-weight: 300;
   line-height: 1.75em;
@@ -471,20 +524,7 @@ select {
 textarea {
   padding: 0.75em 1em;
 }
-input[type="checkbox"],
-input[type="radio"] {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -o-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  display: block;
-  float: left;
-  margin-right: -2em;
-  opacity: 0;
-  width: 1em;
-  z-index: -1;
-}
+
 input[type="checkbox"] + label,
 input[type="radio"] + label {
   text-decoration: none;
@@ -536,9 +576,7 @@ input[type="radio"]:focus + label:before {
 input[type="checkbox"] + label:before {
   border-radius: 6px;
 }
-input[type="radio"] + label:before {
-  border-radius: 100%;
-}
+
 ::-webkit-input-placeholder {
   color: #bbb !important;
   opacity: 1;
