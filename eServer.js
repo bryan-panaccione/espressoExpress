@@ -5,19 +5,18 @@ dotenv.config();
 
 const { Pool } = pkg;
 
+const pool = new Pool({
+  user: process.env.USER_NAME,
+  password: process.env.PASSWORD,
+  database: process.env.DB_NAME,
+});
+
 // const pool = new Pool({
 //   connectionString: process.env.DATABASE_URL,
 //   ssl: {
 //     rejectUnauthorized: false,
 //   },
 // });
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
 
 const app = express();
 app.use(express.json());

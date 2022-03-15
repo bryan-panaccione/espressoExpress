@@ -4,13 +4,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&display=swap");
 
+.stackerButton {
+  display: none;
+}
+.buttonPages {
+  display: none;
+}
+
 /* Admin Area*/
-
-.adminContent {
-}
-
-.adminLayout {
-}
 
 .adminInPiece {
   margin-top: 1em;
@@ -112,7 +113,7 @@
 .petPic {
   object-fit: cover;
   border-radius: 50%;
-  height: 10em;
+  height: 8em;
   margin: 5px;
 }
 .filterSelections {

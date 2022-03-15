@@ -1,5 +1,30 @@
 @charset "UTF-8";
 
+.stacker:first-child {
+  display: inline;
+}
+.stacker:not(first-child) {
+  position: relative;
+  display: none;
+}
+
+.buttonPages {
+  display: flex;
+  justify-content: space-evenly;
+  line-height: 3em;
+}
+
+.petNav {
+  font-size: xxx-large;
+  border: none;
+  background-color: rgb(0, 0, 0, 0);
+  color: rgb(196, 138, 31);
+}
+
+.petNav:active {
+  color: rgb(107, 77, 20);
+}
+
 /* Basic */
 body,
 input,

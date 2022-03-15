@@ -12,6 +12,7 @@ populateButton.addEventListener("click", () => {
       for (let pet of data) {
         let card = document.createElement("div");
         card.classList.add("4u");
+        card.classList.add("stacker");
         card.innerHTML = Admin.petCard(
           pet["name"],
           pet["age"],
@@ -61,3 +62,16 @@ updatePager.addEventListener("click", () => {
 deletePager.addEventListener("click", () => {
   adminArea.innerHTML = Admin.deleter();
 });
+
+//mobile pagination dogs
+const rightArrow = document.querySelector(".right");
+const leftArrow = document.querySelector(".left");
+
+rightArrow.addEventListener("click", () => {
+  let petStack = document.querySelectorAll(".stacker");
+  pet;
+});
+
+leftArrow.addEventListener("click", () => {});
+//remove front and append to back for going right
+//remove back and append to front for going left
