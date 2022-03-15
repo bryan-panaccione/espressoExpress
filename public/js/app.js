@@ -9,6 +9,7 @@ populateButton.addEventListener("click", () => {
   fetch("/home")
     .then((res) => res.json())
     .then((data) => {
+      let count = 0;
       for (let pet of data) {
         let card = document.createElement("div");
         card.classList.add("4u");
@@ -22,10 +23,12 @@ populateButton.addEventListener("click", () => {
           pet["good_w_kids"],
           pet["good_w_animals"],
           pet["about_pet"],
-          pet["id"]
+          pet["id"],
+          count
         );
 
         petArea.appendChild(card);
+        count++;
       }
     });
 });
@@ -67,11 +70,8 @@ deletePager.addEventListener("click", () => {
 const rightArrow = document.querySelector(".right");
 const leftArrow = document.querySelector(".left");
 
-rightArrow.addEventListener("click", () => {
-  let petStack = document.querySelectorAll(".stacker");
-  pet;
-});
+leftArrow.addEventListener("click", () => petArea.prepend(petArea.lastChild));
 
-leftArrow.addEventListener("click", () => {});
+rightArrow.addEventListener("click", () => petArea.append(petArea.firstChild));
 //remove front and append to back for going right
 //remove back and append to front for going left

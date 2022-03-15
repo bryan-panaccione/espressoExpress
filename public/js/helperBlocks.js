@@ -130,7 +130,8 @@ export function petCard(
   good_w_kids,
   good_w_animals,
   about_pet,
-  id
+  id,
+  count
 ) {
   if (good_w_animals === true) {
     good_w_animals = "Good with Animals";
@@ -149,7 +150,7 @@ export function petCard(
   }
   return `
   
-    <div class="petBox ${id}">
+    <div class="petBox ${count}">
       <div class="petBoxTop">
         <img class="petPic"src="./images/throwupcat.jpg" alt="cat">
           <div>

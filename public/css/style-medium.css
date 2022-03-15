@@ -1,11 +1,16 @@
 @charset "UTF-8";
 
+.row {
+  margin-left: 0 !important;
+}
 .stacker:first-child {
   display: inline;
+  transition: cubic-bezier(0.19, 1, 0.22, 1);
 }
 .stacker:not(first-child) {
   position: relative;
   display: none;
+  transition: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .buttonPages {
