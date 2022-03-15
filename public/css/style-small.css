@@ -1,5 +1,10 @@
 /* Basic */
 
+#titleContain {
+  display: flex;
+  flex-direction: column !important;
+}
+
 .selectOpt {
   width: 50%;
 }
