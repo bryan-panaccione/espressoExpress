@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+#activeSearch {
+  display: none !important;
+}
+
 .row {
   margin-left: 0 !important;
 }

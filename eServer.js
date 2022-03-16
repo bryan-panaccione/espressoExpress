@@ -1,6 +1,7 @@
 import express from "express";
 import pkg from "pg";
 import dotenv from "dotenv";
+import { query } from "express";
 dotenv.config();
 
 const { Pool } = pkg;
@@ -27,21 +28,39 @@ app.use(express.static("public"));
 // gonna use Auth0 password.js eventually
 
 //gets
+
+app.get(
+  "/search/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?",
+  (req, res) => {
+    let sQuery = "SELECT * FROM pets ";
+    console.log(req.params);
+    let inputs = req.params;
+    let count = 0;
+    for (var el in inputs) {
+      if (inputs[el] !== "400" && count === 0) {
+        sQuery = sQuery + `WHERE ${el} = '${inputs[el]}'`;
+      } else if (inputs[el] !== "400") {
+        sQuery = sQuery + ` AND ${el} = '${inputs[el]}'`;
+      }
+      count++;
+    }
+    console.log(sQuery);
+    count = 0;
+    pool
+      .query(sQuery)
+      .then((result) => {
+        console.log(sQuery);
+        res.send(result);
+      })
+      .catch((err) => res.sendStatus(500));
+  }
+);
+
 app.get("/home", (req, res) => {
   pool
     .query("SELECT * FROM pets ORDER BY id;")
     .then((result) => {
       res.send(result.rows);
-    })
-    .catch((err) => res.sendStatus(500));
-});
-
-app.get("/home/:id", (req, res) => {
-  const { id } = req.params;
-  pool
-    .query("SELECT * FROM pets WHERE id = $1;", [id])
-    .then((result) => {
-      res.send(result.rows[0]);
     })
     .catch((err) => res.sendStatus(500));
 });

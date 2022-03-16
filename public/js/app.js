@@ -1,50 +1,29 @@
 import * as Admin from "./helperBlocks.js";
+import { filterParent, searchBar } from "./activeSearch.js";
+import * as PetsDB from "./dbCalls.js";
 
 const populateButton = document.querySelector(".populate");
-const populateOne = document.querySelector(".popOne");
 const inputID = document.querySelector(".userInput");
 const petArea = document.querySelector(".row.petAppendArea");
 
-populateButton.addEventListener("click", () => {
-  fetch("/home")
-    .then((res) => res.json())
-    .then((data) => {
-      let count = 0;
-      for (let pet of data) {
-        let card = document.createElement("div");
-        card.classList.add("4u");
-        card.classList.add("stacker");
-        card.innerHTML = Admin.petCard(
-          pet["name"],
-          pet["age"],
-          pet["breed"],
-          pet["kind"],
-          pet["vax_status"],
-          pet["good_w_kids"],
-          pet["good_w_animals"],
-          pet["about_pet"],
-          pet["id"],
-          count
-        );
+//DBCall selectors
+const applyFilter = document.querySelector(".popOne");
+const typeFilter = document.querySelector("#petDrop");
+const kidFilter = document.querySelector("#kidDrop");
+const aniFilter = document.querySelector("#aniDrop");
+const vaxFilter = document.querySelector("#vaxDrop");
 
-        petArea.appendChild(card);
-        count++;
-      }
-    });
-});
+//DB calls
+populateButton.addEventListener("click", () => PetsDB.populateAll());
 
-populateOne.addEventListener("click", (e) => {
-  e.preventDefault();
-  const inputINT = Number.parseInt(inputID.value);
-  if (!Number.isNaN(inputINT)) {
-    inputID.value = "";
-    fetch(`/home/${inputINT}`)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  } else {
-    console.log("enter valid number");
-    inputID.value = "";
-  }
+applyFilter.addEventListener("click", () => {
+  let filterStack = {
+    type: typeFilter.value,
+    kid: kidFilter.value,
+    ani: aniFilter.value,
+    vax: vaxFilter.value,
+  };
+  PetsDB.filterPets(filterStack);
 });
 
 //Admin Pagination
@@ -75,3 +54,10 @@ leftArrow.addEventListener("click", () => petArea.prepend(petArea.lastChild));
 rightArrow.addEventListener("click", () => petArea.append(petArea.firstChild));
 //remove front and append to back for going right
 //remove back and append to front for going left
+
+//Search Event Listener Active Search
+document.addEventListener("keyup", (e) => {
+  if (searchBar === document.activeElement) {
+    filterParent(e);
+  }
+});
