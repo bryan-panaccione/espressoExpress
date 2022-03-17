@@ -70,7 +70,7 @@
           <label for="kind">Type</label>
 
           <select name="kind" id="petDrop" class="selectOpt">
-            <option value="null" selected="selected" ></option>
+            <option value="400" selected="selected" ></option>
             <option value="cat">Cat</option>
             <option value="dog">Dog</option>
             <option value="reptile">Reptile</option>
@@ -81,7 +81,7 @@
           <label for="kidFriend">Kid Friendly</label>
 
           <select name="kidFriend" id="kidDrop" class="selectOpt">
-            <option value="null" selected="selected"></option>
+            <option value="400" selected="selected"></option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
@@ -90,7 +90,7 @@
           <label for="aniFriend">Animal Friendly</label>
 
           <select name="aniFriend" id="aniDrop"class="selectOpt">
-            <option value="null" selected="selected"></option>
+            <option value="400" selected="selected"></option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
@@ -99,15 +99,15 @@
           <label for="vaxStat">Vaccinations</label>
 
           <select name="vaxStat" id="vaxDrop" class="selectOpt">
-            <option value="null" selected="selected"></option>
+            <option value="400" selected="selected"></option>
             <option value="true">Up to Date</option>
           </select>
         </div>
       </div>
-      <div class="filterSelections">
-        <div class="filterTag">Dog<i class="fa-solid fa-x"></i></div>
-        <div class="filterTag">Animal Friendly<i class="fa-solid fa-x"></i></div>
-        <div class="filterTag">Vaccinated<i class="fa-solid fa-x"></i></div>
+      <div class="filterSelections hideMe">
+        <button class="filterTag" id="leftPage"><i class="fa-solid fa-arrow-left"></i>Page Left</button>
+        <div class="filterTag centerTag"><div id="currentPage"></div><div>of</div><div id="nineOfDisp"></div></div>
+        <button class="filterTag" id="rightPage">Page Right<i class="fa-solid fa-arrow-right"></i></button>
 
       </div>
 

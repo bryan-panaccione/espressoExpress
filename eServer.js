@@ -1,7 +1,7 @@
 import express from "express";
 import pkg from "pg";
 import dotenv from "dotenv";
-import { query } from "express";
+
 dotenv.config();
 
 const { Pool } = pkg;
@@ -33,50 +33,121 @@ app.get(
   "/search/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?",
   (req, res) => {
     let sQuery = "SELECT * FROM pets ";
-    console.log(req.params);
     let inputs = req.params;
     let count = 0;
     for (var el in inputs) {
       if (inputs[el] !== "400" && count === 0) {
         sQuery = sQuery + `WHERE ${el} = '${inputs[el]}'`;
+        count++;
       } else if (inputs[el] !== "400") {
         sQuery = sQuery + ` AND ${el} = '${inputs[el]}'`;
+        count++;
       }
-      count++;
     }
-    console.log(sQuery);
     count = 0;
+    sQuery = sQuery + `LIMIT 9`;
     pool
       .query(sQuery)
       .then((result) => {
-        console.log(sQuery);
-        res.send(result);
+        if (result.rows.length > 0) {
+          res.send(result.rows);
+        } else {
+          res.send(404);
+        }
       })
       .catch((err) => res.sendStatus(500));
   }
 );
 
+let previousEndCount = 9;
+app.get(
+  "/search/count/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?",
+  (req, res) => {
+    let countQuery = "SELECT COUNT(*) FROM pets ";
+    let inputs = req.params;
+    let count = 0;
+    for (var el in inputs) {
+      if (inputs[el] !== "400" && count === 0) {
+        countQuery = countQuery + `WHERE ${el} = '${inputs[el]}'`;
+        count++;
+      } else if (inputs[el] !== "400") {
+        countQuery = countQuery + ` AND ${el} = '${inputs[el]}'`;
+        count++;
+      }
+    }
+    count = 0;
+    previousEndCount += 9;
+    pool
+      .query(countQuery)
+      .then((result) => {
+        res.send(result.rows[0]);
+      })
+      .catch((err) => res.sendStatus(500));
+  }
+);
+app.get(
+  "/search/paginate/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?",
+  (req, res) => {
+    let nQuery = "SELECT * FROM pets ";
+    let inputs = req.params;
+    let count = 0;
+    for (var el in inputs) {
+      if (inputs[el] !== "400" && count === 0) {
+        nQuery = nQuery + `WHERE ${el} = '${inputs[el]}'`;
+        count++;
+      } else if (inputs[el] !== "400") {
+        nQuery = nQuery + ` AND ${el} = '${inputs[el]}'`;
+        count++;
+      }
+    }
+    count = 0;
+    nQuery = nQuery + `LIMIT 9 OFFSET ${previousEndCount}`;
+    previousEndCount += 9;
+    pool
+      .query(nQuery)
+      .then((result) => {
+        if (result.rows.length === 9) {
+          res.send(result.rows);
+        } else {
+          res.send(result.rows);
+          previousEndCount = 0;
+        }
+      })
+      .catch((err) => res.sendStatus(500));
+  }
+);
 app.get("/home", (req, res) => {
   pool
-    .query("SELECT * FROM pets ORDER BY id;")
+    .query("SELECT * FROM pets ORDER BY id LIMIT 9;")
+    .then((result) => {
+      res.send(result.rows);
+    })
+    .catch((err) => res.sendStatus(500));
+});
+app.get("/home/count/all", (req, res) => {
+  pool
+    .query("SELECT COUNT(*) FROM pets")
     .then((result) => {
       res.send(result.rows);
     })
     .catch((err) => res.sendStatus(500));
 });
 
-// app.get("/home/users", (req, res) => {
-//   pool
-//     .query("SELECT * FROM userAccounts;")
-//     .then((result) => {
-//       res.send(result.rows);
-//     })
-//     .catch((err) => res.sendStatus(500));
-// });
-//posts
+app.get("/home/:id", (req, res) => {
+  const { id } = req.params;
+  pool
+    .query("SELECT * FROM pets WHERE id = $1;", [id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        res.send(id);
+      } else {
+        res.send(result.rows[0]);
+      }
+    })
+    .catch((err) => res.sendStatus(500));
+});
 
-app.post("/home", (req, res) => {
-  console.log("in path");
+app.post("/home/admin", (req, res) => {
   const {
     name,
     age,
@@ -84,14 +155,13 @@ app.post("/home", (req, res) => {
     kind,
     vax_status,
     good_w_kids,
-    goood_w_animals,
+    good_w_animals,
     about_pet,
   } = req.body;
   const postQuery = `
   INSERT INTO pets(name, age, breed, kind, vax_status, good_w_kids, good_w_animals, about_pet) 
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;`;
   if (name && age && breed && kind && about_pet) {
-    console.log("past if");
     pool
       .query(postQuery, [
         name,
@@ -100,10 +170,10 @@ app.post("/home", (req, res) => {
         kind,
         vax_status,
         good_w_kids,
-        goood_w_animals,
+        good_w_animals,
         about_pet,
       ])
-      .then(() => res.send(`Successfully added ${name} to the list`))
+      .then((result) => res.send(result.rows[0]))
       .catch((err) => res.sendStatus(500));
   } else {
     res.status(400).send("Must include title and body");
@@ -111,8 +181,7 @@ app.post("/home", (req, res) => {
 });
 
 //patches
-app.patch("/home/:id", (req, res) => {
-  console.log("inpath");
+app.patch("/home/admin/:id", (req, res) => {
   const {
     name,
     age,
@@ -124,7 +193,6 @@ app.patch("/home/:id", (req, res) => {
     about_pet,
   } = req.body;
   const { id } = req.params;
-  console.log(breed);
   const updateCommand = `
   UPDATE pets SET
     name = COALESCE($2, name),
@@ -149,19 +217,19 @@ app.patch("/home/:id", (req, res) => {
       goood_w_animals,
       about_pet,
     ])
-    .then((result) => res.send(`Update made to ${result.rows[0]["name"]}`))
+    .then((result) => res.send(result.rows))
     .catch((err) => res.sendStatus(500));
 });
 
 //deletes
-app.delete("/home/:id", (req, res) => {
+app.delete("/home/admin/:id", (req, res) => {
   const { id } = req.params;
   const deleteCommand = `DELETE FROM pets WHERE id = $1 RETURNING *`;
   pool
     .query(deleteCommand, [id])
     .then((result) => {
       if (result.rowCount > 0) {
-        res.send(`${result.rows[0]["name"]} deleted from records`);
+        res.send(result.rows[0]);
       } else {
         res.sendStatus(404);
       }

@@ -38,13 +38,13 @@ export function add() {
                 </div>
               </div>
               <div class="adminInPiece">
-                <textarea class="longInput" rows="10" cols="30">
-                  Enter pet biography
-                  </textarea>
+              <textarea class="longInput" rows="10" cols="30">Enter pet biography</textarea>
               </div>
               <ul class="actions adminInPiece">
-                <li><a href="#" class="button alt special">Add Pet</a></li>
-                <li><a href="#" class="button alt">Reset</a></li>
+                <button id="addtoDB" class="button alt special">Add Pet</button>
+                <button id="resetAddOpts" class="button alt">Reset</button>
+        
+            
               </ul>
                 `;
 }
@@ -54,7 +54,7 @@ export function update() {
                 <div class="changeHeader">
                   <h3>Select Pet to Update</h3>
                   <input type="text" class="shortInput updateIDpatch" placeholder="Pet ID">
-                  <button class="button special">Get Pet</button>
+                  <button class="button special" id="getPet">Get Pet</button>
                 </div>
 
               <div class="petAddOptions adminLayout">
@@ -92,6 +92,9 @@ export function update() {
                   <label for="checkPetVaxAdd">Vaccinated?</label>
                   <input type="checkbox" name="checkPetVaxAdd" id="petAddVax">
                 </div>
+                <div class="adminInPiece">
+                <label id="patchingIDDisp">_</label>
+              </div>
               </div>
               <div class="adminInPiece">
                 <textarea class="longInput" id="petAddAbout"rows="10" cols="30">
@@ -99,8 +102,8 @@ export function update() {
                   </textarea>
               </div>
               <ul class="actions adminInPiece">
-                <li><a href="#" class="button alt special">Send Update</a></li>
-                <li><a href="#" class="button alt">Reset</a></li>
+              <button id="updateDB" class="button alt special">Send Update</button>
+              <button id="resetAddOpts" class="button alt">Reset</button>
 
               </ul>
         `;
@@ -111,13 +114,12 @@ export function deleter() {
     <div class="changeHeader">
         <h3>Select Pet to Remove</h3>
         <input type="text" class="shortInput updateIDpatch" placeholder="Pet ID">
-    <button class="button special">Select</button>
+    <button id="getPet" class="button special">Select</button>
     </div>
 
     <div class="deleteContent">
-        Goodbye ______! 
-        <button class="button special" style="background-color: red; margin-left: 2em;">Confirm</button>
-    </div>
+    <div class="areYouSure"> 
+           </div>
     `;
 }
 
