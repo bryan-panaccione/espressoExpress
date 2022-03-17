@@ -21,7 +21,7 @@ CREATE TABLE pets (
     about_pet TEXT
 );
 
-
+INSERT INTO users(name, password) VALUES ('audie','$2b$10$pI947EpKhjzOpgB3CpF73u9kNn56ZVn9XBOYJj1stSqWJZcxHFMfy');
 
 INSERT INTO pets(name, age, breed, kind, vax_status, good_w_kids, good_w_animals, about_pet) VALUES 
 ('Audie', 4, 'Lab-GSD Mix', 'dog', true, true, false, 'Audie is a high energy loving dog that is dominant-assertive He likes to take long walks on the beach and take shots of bacardi with his best friends, usually that gets him in trouble but he doesnt mind'),

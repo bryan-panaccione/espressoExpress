@@ -63,7 +63,7 @@ app.post("/login", (req, res) => {
       );
       if (comparison) {
         console.log("good password");
-        res.sendStatus(200);
+        res.send(result.rows[0]);
       } else {
         console.log("bad password");
         res.sendStatus(401);
