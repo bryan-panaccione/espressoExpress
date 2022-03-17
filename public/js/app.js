@@ -15,7 +15,11 @@ const vaxFilter = document.querySelector("#vaxDrop");
 //adminDBCALL selectors
 
 //DB calls
-populateButton.addEventListener("click", () => PetsDB.populateAll());
+populateButton.addEventListener("click", () => {
+  PetsDB.populateAll();
+  let displayPageTag = document.querySelector(".filterSelections");
+  displayPageTag.classList.remove("hideMe");
+});
 const pageRight = document.querySelector("#rightPage");
 const pageLeft = document.querySelector("#leftPage");
 
@@ -28,6 +32,8 @@ applyFilter.addEventListener("click", () => {
   };
   PetsDB.filterPets(filterStack);
   PetsDB.getCount(filterStack);
+  let displayPageTag = document.querySelector(".filterSelections");
+  displayPageTag.classList.remove("hideMe");
 });
 
 pageRight.addEventListener("click", () => {
@@ -37,8 +43,9 @@ pageRight.addEventListener("click", () => {
     ani: aniFilter.value,
     vax: vaxFilter.value,
   };
-  PetsDB.paginateRight(filterStack);
+  PetsDB.paginate(filterStack);
 });
+
 //Admin Pagination
 const adminArea = document.querySelector(".adminContent");
 

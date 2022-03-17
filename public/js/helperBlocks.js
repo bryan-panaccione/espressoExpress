@@ -154,7 +154,7 @@ export function petCard(
   
     <div class="petBox ${count}">
       <div class="petBoxTop">
-        <img class="petPic"src="./images/throwupcat.jpg" alt="cat">
+        <img class="petPic"src="./images/${kind}.png" alt="cat">
           <div>
             <div class="namePet" >${name}</div>
             <div class="agePet data">${age}</div>

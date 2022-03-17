@@ -1,6 +1,7 @@
 import express from "express";
 import pkg from "pg";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -25,6 +26,63 @@ app.use(express.urlencoded());
 app.use(express.static("public"));
 
 // auth middleware
+let users = [];
+app.get("/users", (req, res) => {
+  res.json(users);
+});
+
+app.post("/users", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log(hashedPassword);
+    const user = { name: req.body.name, password: hashedPassword };
+    pool
+      .query("INSERT INTO users(name, password) VALUES ($1, $2) RETURNING *", [
+        req.body.name,
+        hashedPassword,
+      ])
+      .then((result) => {
+        res.status(201).send(result.rows);
+      })
+      .catch((err) => res.sendStatus(500));
+  } catch {
+    res.sendStatus(500);
+  }
+});
+
+app.post("/users/login", async (req, res) => {
+  pool
+    .query("SELECT name, password FROM users WHERE name = $1", [req.body.name])
+    .then((result) => {
+      if (!(result.rows.length > 0)) {
+        return res.status(400).send("Cannot Find User");
+      }
+      try {
+        bcrypt.compareSync(
+          req.body.password,
+          result.rows[0].password,
+          (err, result) => {
+            if (err) {
+              return res.sendStatus(500);
+            }
+            if (result) {
+              console.log(result);
+              return res.status(200).send("good login bud");
+            } else {
+              // response is OutgoingMessage object that server response http request
+              return res.json({
+                success: false,
+                message: "passwords do not match",
+              });
+            }
+          }
+        );
+      } catch {
+        res.sendStatus(500);
+      }
+    });
+});
+
 // gonna use Auth0 password.js eventually
 
 //gets
@@ -76,7 +134,6 @@ app.get(
       }
     }
     count = 0;
-    previousEndCount += 9;
     pool
       .query(countQuery)
       .then((result) => {
@@ -86,10 +143,12 @@ app.get(
   }
 );
 app.get(
-  "/search/paginate/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?",
+  "/search/paginate/:kind?/:good_w_kids?/:good_w_animals?/:vax_status?/",
   (req, res) => {
     let nQuery = "SELECT * FROM pets ";
     let inputs = req.params;
+    const leftOrRight = req.params["pageDirection"];
+    delete req.params["pageDirection"];
     let count = 0;
     for (var el in inputs) {
       if (inputs[el] !== "400" && count === 0) {
@@ -100,9 +159,12 @@ app.get(
         count++;
       }
     }
-    count = 0;
+
     nQuery = nQuery + `LIMIT 9 OFFSET ${previousEndCount}`;
     previousEndCount += 9;
+
+    count = 0;
+
     pool
       .query(nQuery)
       .then((result) => {
@@ -116,6 +178,7 @@ app.get(
       .catch((err) => res.sendStatus(500));
   }
 );
+
 app.get("/home", (req, res) => {
   pool
     .query("SELECT * FROM pets ORDER BY id LIMIT 9;")

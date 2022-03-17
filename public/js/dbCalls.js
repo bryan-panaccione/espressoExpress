@@ -51,18 +51,18 @@ function singleCard(obj) {
 function showOfPages(pageNum, resultNum) {
   let pageCounter = document.querySelector("#nineOfDisp");
   let currentPage = document.querySelector("#currentPage");
-  pageCounter.innerText = `${resultNum % 9}`;
+  pageCounter.innerText = `${Math.floor(resultNum / 9) + 1}`;
   currentPage.innerText = `${pageNum} `;
 }
 
 function updatePage(pageNum) {
   let totalPages = document.querySelector("#nineOfDisp");
   let currentPage = document.querySelector("#currentPage");
-  if (pageNum < parseInt(totalPages.innerText)) {
+  if (pageNum <= parseInt(totalPages.innerText) && pageNum > 0) {
     currentPage.innerText = `${pageNum} `;
-  } else {
+  } else if (pageNum > parseInt(totalPages.innerText)) {
     pageCount = 1;
-    currentPage.innerText = `${1}`;
+    currentPage.innerText = 1;
   }
 }
 export function getFullCount(obj) {
@@ -80,8 +80,6 @@ export function getFullCount(obj) {
       let countDisplay = document.querySelector("#resultCount");
       countDisplay.innerText = `Results: ${data[0].count}`;
       showOfPages(1, data[0].count);
-      let displayPageTag = document.querySelector(".filterSelections");
-      displayPageTag.classList.remove("hideMe");
     });
 }
 
@@ -130,12 +128,12 @@ export function getCount(obj) {
     .then((data) => {
       let countDisplay = document.querySelector("#resultCount");
       countDisplay.innerText = `Results: ${data.count}`;
+      showOfPages(1, data.count);
     });
 }
 
-export function paginateRight(obj) {
+export function paginate(obj) {
   let url = `/search/paginate/${obj["type"]}/${obj["kid"]}/${obj["ani"]}/${obj["vax"]}`;
-
   fetch(url, {
     method: "GET",
     mode: "cors",
@@ -155,6 +153,7 @@ export function paginateRight(obj) {
       }
     });
 }
+
 //admin functions below
 
 export function addPetToDB(addObj) {

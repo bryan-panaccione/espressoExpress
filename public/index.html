@@ -32,11 +32,15 @@
 
       <nav id="nav">
         <ul>
-          <li>
-            <input type="text" placeholder="username" />
-          </li>
-          <li><input type="text" placeholder="password" /></li>
-          <li><a href="#" class="button special">ADMIN LOGIN</a></li>
+          
+            <li>
+              <input id="username" name="username" type="text" placeholder="username" autocomplete="username" required />
+            </li>
+            <li><input id="current-password" name="password" type="password" placeholder="password" autocomplete="current-password" required /></li>
+            <button class="button special">ADMIN LOGIN</button>
+          
+          <div>
+          
         </ul>
       </nav>
     </header>
@@ -105,9 +109,9 @@
         </div>
       </div>
       <div class="filterSelections hideMe">
-        <button class="filterTag" id="leftPage"><i class="fa-solid fa-arrow-left"></i>Page Left</button>
+      
         <div class="filterTag centerTag"><div id="currentPage"></div><div>of</div><div id="nineOfDisp"></div></div>
-        <button class="filterTag" id="rightPage">Page Right<i class="fa-solid fa-arrow-right"></i></button>
+        <button class="filterTag" id="rightPage">Next Page<i class="fa-solid fa-arrow-right"></i></button>
 
       </div>
 

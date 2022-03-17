@@ -4,6 +4,11 @@ DROP TABLE IF EXISTS noteCards;
 DROP TABLE IF EXISTS pets;
 
 
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name text,
+    password text
+);
 CREATE TABLE pets (
     id SERIAL PRIMARY KEY,
     name TEXT,
