@@ -4,6 +4,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600&display=swap");
 
+.redBorder {
+  filter: drop-shadow(1px 0px 7px rgb(221, 2, 2)) !important;
+}
+
 .centerTag {
   display: flex;
 }

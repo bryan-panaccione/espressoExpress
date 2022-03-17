@@ -154,6 +154,40 @@ export function paginate(obj) {
     });
 }
 
+export function adminLogin(user, pass) {
+  const checkObj = { name: user, password: pass };
+  fetch("/login", {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(checkObj),
+  }).then((res) => {
+    const logButt = document.querySelector("#adminLoginButt");
+    const passwordInput = document.querySelector("#current-password");
+    const usernameInput = document.querySelector("#username");
+    if (res.status === 200) {
+      console.log("successful login !!!");
+      const adminSection = document.querySelector("#two");
+      adminSection.classList.remove("hideMe");
+      logButt.classList.remove("redBorder");
+      passwordInput.classList.remove("redBorder");
+      usernameInput.classList.remove("redBorder");
+      passwordInput.value = "";
+      usernameInput.value = "";
+    } else {
+      console.log("bad login attempt");
+      logButt.classList.add("redBorder");
+      passwordInput.classList.add("redBorder");
+      usernameInput.classList.add("redBorder");
+      passwordInput.value = "";
+      usernameInput.value = "";
+    }
+  });
+}
+
 //admin functions below
 
 export function addPetToDB(addObj) {

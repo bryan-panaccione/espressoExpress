@@ -6,6 +6,17 @@ const populateButton = document.querySelector(".populate");
 const inputID = document.querySelector(".userInput");
 const petArea = document.querySelector(".row.petAppendArea");
 
+//login button
+
+const loginButton = document.querySelector("#adminLoginButt");
+loginButton.addEventListener("click", () => {
+  console.log("loginclicked");
+  const user = document.querySelector("#username").value;
+  const pass = document.querySelector("#current-password").value;
+
+  PetsDB.adminLogin(user, pass);
+});
+
 //DBCall selectors
 const applyFilter = document.querySelector(".popOne");
 const typeFilter = document.querySelector("#petDrop");

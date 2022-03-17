@@ -7,18 +7,18 @@ dotenv.config();
 
 const { Pool } = pkg;
 
-// const pool = new Pool({
-//   user: process.env.USER_NAME,
-//   password: process.env.PASSWORD,
-//   database: process.env.DB_NAME,
-// });
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  user: process.env.USER_NAME,
+  password: process.env.PASSWORD,
+  database: process.env.DB_NAME,
 });
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
 const app = express();
 app.use(express.json());
@@ -50,35 +50,23 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.post("/users/login", async (req, res) => {
+app.post("/login", (req, res) => {
   pool
     .query("SELECT name, password FROM users WHERE name = $1", [req.body.name])
     .then((result) => {
       if (!(result.rows.length > 0)) {
         return res.status(400).send("Cannot Find User");
       }
-      try {
-        bcrypt.compareSync(
-          req.body.password,
-          result.rows[0].password,
-          (err, result) => {
-            if (err) {
-              return res.sendStatus(500);
-            }
-            if (result) {
-              console.log(result);
-              return res.status(200).send("good login bud");
-            } else {
-              // response is OutgoingMessage object that server response http request
-              return res.json({
-                success: false,
-                message: "passwords do not match",
-              });
-            }
-          }
-        );
-      } catch {
-        res.sendStatus(500);
+      var comparison = bcrypt.compareSync(
+        req.body.password,
+        result.rows[0].password
+      );
+      if (comparison) {
+        console.log("good password");
+        res.sendStatus(200);
+      } else {
+        console.log("bad password");
+        res.sendStatus(401);
       }
     });
 });
