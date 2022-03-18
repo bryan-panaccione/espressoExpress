@@ -7,18 +7,18 @@ dotenv.config();
 
 const { Pool } = pkg;
 
-// const pool = new Pool({
-//   user: process.env.USER_NAME,
-//   password: process.env.PASSWORD,
-//   database: process.env.DB_NAME,
-// });
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  user: process.env.USER_NAME,
+  password: process.env.PASSWORD,
+  database: process.env.DB_NAME,
 });
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
 const app = express();
 app.use(express.json());
@@ -26,10 +26,6 @@ app.use(express.urlencoded());
 app.use(express.static("public"));
 
 // auth middleware
-let users = [];
-app.get("/users", (req, res) => {
-  res.json(users);
-});
 
 app.post("/users", async (req, res) => {
   try {
@@ -70,8 +66,6 @@ app.post("/login", (req, res) => {
       }
     });
 });
-
-// gonna use Auth0 password.js eventually
 
 //gets
 

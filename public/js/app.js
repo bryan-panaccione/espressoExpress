@@ -31,6 +31,7 @@ populateButton.addEventListener("click", () => {
   let displayPageTag = document.querySelector(".filterSelections");
   displayPageTag.classList.remove("hideMe");
 });
+
 const pageRight = document.querySelector("#rightPage");
 const pageLeft = document.querySelector("#leftPage");
 
